@@ -43,3 +43,7 @@ export const  Chat = () => {
   );
 }
 
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
