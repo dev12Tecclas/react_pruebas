@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import './App.css'
 import { useEffect } from 'react'
-import Chat from './components/Chat'
+import { Chat } from './components/Chat'
 import { Routes , Route  } from 'react-router-dom'
 import { io } from 'socket.io-client'
 import HomePage from './components/HomePage'

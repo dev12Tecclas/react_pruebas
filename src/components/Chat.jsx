@@ -1,30 +1,8 @@
-/* import React from 'react'
-
-export default function Chat() {
-  return (
-    <div className='chat'>
-        <div>
-        <ul>
-
-        </ul>
-
-        </div>
-        <div className='formChat'>
-        <form >
-            <input type='text' autoComplete='off'/>
-            <button type='submit'>Enviar</button>
-        </form>
-
-        </div>
-    </div>
-  )
-} */
-// App.js
 
 import React, { useState } from 'react';
-import './styles.css';
+/* import './styles.css'; */
 
-export const  chat = () => {
+export const  Chat = () => {
   const [messages, setMessages] = useState([]);
   const [message, setMessage] = useState('');
 
@@ -65,4 +43,3 @@ export const  chat = () => {
   );
 }
 
-export default App;
