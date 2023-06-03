@@ -18,14 +18,15 @@ function App() {
 
   return (
     <>
-        <h1>CHAT</h1>
-      <Routes>
-
-        <Route exact path="/" element={<HomePage/>} />
-        <Route path="/chat" element={<Chat/>} />
-      
-    </Routes>
-      {/* <Chat/> */}
+       <Route>
+      <div className="app">
+        <h1>Chat en React</h1>
+        <Switch>
+          <Route exact path="/" component={LoginChat} />
+          <Route path="/chat/:username" component={ChatContainer} />
+        </Switch>
+      </div>
+    </Route>
     </>
   )
 }
