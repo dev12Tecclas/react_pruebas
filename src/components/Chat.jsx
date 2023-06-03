@@ -1,6 +1,9 @@
 
+
+
 import React, { useState } from 'react';
-/* import './styles.css'; */
+// import './styles.css';
+
 
 export const  Chat = () => {
   const [messages, setMessages] = useState([]);
@@ -20,7 +23,7 @@ export const  Chat = () => {
 
   return (
     <div className="app">
-      <h1>Chat en React</h1>
+
       <div className="chat">
         <div className="message-list">
           {messages.map((message, index) => (
@@ -43,7 +46,3 @@ export const  Chat = () => {
   );
 }
 
-<<<<<<< Updated upstream
-=======
-
->>>>>>> Stashed changes

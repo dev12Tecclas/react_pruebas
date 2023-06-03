@@ -1,11 +1,11 @@
 import { useState } from 'react'
 import './App.css'
 import { useEffect } from 'react'
-import { Chat } from './components/Chat'
 import { Routes , Route  } from 'react-router-dom'
 import { io } from 'socket.io-client'
 import HomePage from './components/HomePage'
-import LoginChat from './components/LoginChat'
+import {LoginChat} from './components/LoginChat'
+import { Chat } from './components/Chat'
 export const socket = io('http://localhost:2000')
 
 function App() {
@@ -19,13 +19,14 @@ function App() {
 
   return (
     <>
-       <Route>
-      <div className="app">
         <h1>Chat en React</h1>
-          <Route exact path="/" component={LoginChat} />
-          <Route path="/chat/:username" component={ChatContainer} />
+      <div className="app">
+          {/* <Route path="/chat/:username" element={<Cha} /> */}
       </div>
-    </Route>
+       <Routes>
+          <Route exact path="/" element={<LoginChat/>} />
+          <Route path='/chat' element={<Chat/>} />
+    </Routes>
     </>
   )
 }

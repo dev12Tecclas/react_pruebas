@@ -1,12 +1,13 @@
 // LoginChat.js
 
 import React, { useState } from 'react';
-import { Redirect } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 
-function LoginChat() {
+export function LoginChat() {
   const [username, setUsername] = useState('');
-  const [redirectToChat, setRedirectToChat] = useState(false);
+  const navigate = useNavigate()
+  // const [redirectToChat, setLinkRedirectToChat] = useState(false);
 
   const handleUsernameChange = (event) => {
     setUsername(event.target.value);
@@ -14,13 +15,15 @@ function LoginChat() {
 
   const handleFormSubmit = (event) => {
     event.preventDefault();
-    if (username.trim() !== '') {
-      setRedirectToChat(true);
-    }
-  };
+    navigate('/chat')
+  //   if (username.trim() !== '') {
+  //     setLinkRedirectToChat(true);
+  //   }
+  // };
 
-  if (redirectToChat) {
-    return <Redirect to={`/chat/${username}`} />;
+  // if (redirectToChat) {
+  //   return <Link to={`/chat/${username}`} />;
+  // }
   }
 
   return (
@@ -36,4 +39,4 @@ function LoginChat() {
   );
 }
 
-export default LoginChat;
+
