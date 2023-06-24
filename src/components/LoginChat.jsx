@@ -2,19 +2,26 @@
 
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { socket } from '../components/Chat';
 
 
-export function LoginChat() {
-  const [username, setUsername] = useState('');
+export function LoginChat({ setUsuario ,usuario ,setUsuarios , usuarios , idUsuario , setIdUsuario}) {
+  
   const navigate = useNavigate()
   // const [redirectToChat, setLinkRedirectToChat] = useState(false);
 
   const handleUsernameChange = (event) => {
-    setUsername(event.target.value);
+    console.log('entraaaaaa');
+    console.log(usuario);
+    setUsuario(event.target.value)
   };
-
+  
   const handleFormSubmit = (event) => {
     event.preventDefault();
+    localStorage.setItem('token', idUsuario)
+    socket.emit('nuevo-usuario' , {usuario, idUsuario } )
+    // setUsuarios([...usuarios,usuario])
+   
     navigate('/chat')
   //   if (username.trim() !== '') {
   //     setLinkRedirectToChat(true);
@@ -31,8 +38,20 @@ export function LoginChat() {
       <input
         type="text"
         placeholder="Ingresa tu nombre de usuario"
-        value={username}
+        value={usuario}
         onChange={handleUsernameChange}
+      />
+      <br />
+      <input
+        type="text"
+        placeholder="id usuario"
+        value={idUsuario}
+        onChange={(e) => {
+          setIdUsuario(e.target.value)
+          
+          }
+          
+          }
       />
       <button type="submit">Ingresar al chat</button>
     </form>

@@ -1,24 +1,18 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { Link } from 'react-router-dom'
 // import { socket } from '../App';
-import { io } from 'socket.io-client'
-import { MensajePrivado } from './MensajePrivado';
-
- export const socket = io('http://localhost:2000',{
-  'extraHeaders': {
-    'x-token': localStorage.getItem('token')
-}
-})
+import { Link, useParams } from 'react-router-dom';
+import { sesion } from '../data/data.js'
 
 
-export const Chat = ({ usuario, setUsuario, usuarios, setUsuarios , idUsuario}) => {
+export const ChatPersonal = ({ usuario, setUsuario, usuarios, setUsuarios }) => {
   const [messages, setMessages] = useState([]);
   const [message, setMessage] = useState('');
   const refMessages = useRef([])
   const [socketOn, setSocketOn] = useState(false)
 
   const [users, setUsers] = useState([]);
-
+  const { id } = useParams()
+  console.log( id);
 
   const handleSendMessage = (event) => {
     event.preventDefault();
@@ -29,8 +23,7 @@ export const Chat = ({ usuario, setUsuario, usuarios, setUsuarios , idUsuario}) 
     console.log('dispara');
     const conversation = {
       msg: message,
-      user: usuario,
-      id : idUsuario
+      user: usuario
     }
     socket.emit('enviar-mensaje', conversation)
   };
@@ -42,10 +35,8 @@ export const Chat = ({ usuario, setUsuario, usuarios, setUsuarios , idUsuario}) 
 
 
   useEffect(() => {
- 
-    socket.on('connect', () => {
-      setSocketOn(true)
-    
+    socket.on('connect', (algo) => {
+      socket.emit('unirSala', { sesion , id })
     });
 
 
@@ -62,36 +53,11 @@ export const Chat = ({ usuario, setUsuario, usuarios, setUsuarios , idUsuario}) 
 
   }, [messages])
 
-
-  //! mensaje privados
-  useEffect(() => {
- 
-    socket.on('connect', () => {
-      setSocketOn(true)
-    
-    });
-
-
-    socket.on('nuevo-mensaje-p', (data) => {
-      console.log('entra-pe');
-      console.log(data);
-      setMessages([...messages, data])
-      setMessage('');
-    })
-
-
-    return () => {
-      socket.off('nuevo-mensaje-p')
-    }
-
-  }, [messages])
-
   useEffect(() => {
 
     socket.on('nuevo-usuario', (data) => {
-      console.log(data, 'ususario');
-      // setUsuarios([...usuarios,data])
-      setUsuarios([...data])
+      console.log(data);
+      setUsuarios([...usuarios,data])
       
     })
     // socket.emit('lista-users' , usuarios)
@@ -104,13 +70,12 @@ export const Chat = ({ usuario, setUsuario, usuarios, setUsuarios , idUsuario}) 
 
   }, [usuarios])
 
-  console.log(usuarios);
+
   return (
     <div className="app">
-       <button className='btn-inicio'>
+      <button className='btn-inicio'>
         <Link to="/" >home</Link>
       </button>
-      <br />
       <div className="sidebar">
         <h2>Usuarios</h2>
         <ul>
@@ -120,7 +85,7 @@ export const Chat = ({ usuario, setUsuario, usuarios, setUsuarios , idUsuario}) 
         </ul>
       </div>
       <div className="chat">
-        <div className='container-chat'>
+        <div className='container-chat-personal'>
           <div className="message-list">
             {messages.map((message, index) => (
               <div key={index} className="message">
@@ -140,20 +105,9 @@ export const Chat = ({ usuario, setUsuario, usuarios, setUsuarios , idUsuario}) 
 
         </div>
 
-        <div className='users'>
-          {usuarios?.map((usuario, index) =>
-            <div key={usuario}>
-            <span>{usuario.usuario}= </span>
-            <span>{usuario.idUsuario}</span>
-            
-            </div>
-          )}
-        </div>
+        
 
       </div>
-      <br/>
-      <hr/>
-      <MensajePrivado usuario={usuario}/>
 
     </div>
   );
